@@ -1,0 +1,35 @@
+{
+  "name": "fecapjr25",
+  "version": "1.0.0",
+  "description": "<p float=\"left\">\r   <img src=\"https://github.com/user-attachments/assets/9bd3241b-89a8-48cf-98f4-6454f5856bf9\" width=\"150\" align=\"left\"/>\r   <img loading=\"lazy\" src=\"https://img.shields.io/badge/Processo_Seletivo-2025-24?style=for-the-badge&color=GREEN\" align=\"right\"/>\r </p>\r <br/>\r <p>\r   <h1 align=\"center\">Desafio de Programação Fullstack – Vaga Júnior</h1>\r </p>\r <p>\r   Prezado candidato, este teste foi elaborado em 2 etapas: teórica e prática.<br/><br/>\r   É permitido consultar internet, documentação e fóruns livremente, mas <b>blocos de código gerados por IA podem gerar desclassificação</b> caso não sejam entendidos ou adaptados.\r </p>\r <p>\r   Não esperamos que seu teste seja complexo ou perfeito. Queremos entender seu raciocínio, organização e capacidade de documentar decisões.  \r   Saber seus pontos fracos também é importante, por isso conte-nos o que você domina e o que ainda está aprendendo.\r </p>\r <p>\r   Você deve clonar este repositório e responder a parte teórica diretamente no arquivo README.md, junto com o código da parte prática.\r </p>\r <p>\r   O frontend e o backend devem ser desenvolvidos separadamente e se comunicar através de uma API.  \r   Se usar banco de dados, inclua o script de criação das tabelas em um arquivo `.sql`.\r </p>\r <p>\r   :arrow_right: O código deve ser entregue em um repositório Git (GitHub, GitLab ou Bitbucket)<br/>\r   :arrow_right: Inclua um README.md com instruções claras para configurar e executar o projeto<br/>\r   :arrow_right: <b>Prazo de entrega:</b> 4 dias a partir do recebimento do teste\r </p>\r <p><b>:gem: Dica! Não consuma tempo com estilização das páginas do teste prático, foque na funcionalidade.</b></p>\r <p><b>:gem: Dica! Simplicidade funcional > Conceitos complexos e código inchado.</b></p>\r <p><b>:gem: Dica! Código comentado explicando decisão técnica é ouro.</b></p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch src/app.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaelcaldastx/FECAPJR25.git"
+  },
+  "keywords": [],
+  "author": "Bruno <brunopimentelzw@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/rafaelcaldastx/FECAPJR25/issues"
+  },
+  "homepage": "https://github.com/rafaelcaldastx/FECAPJR25#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.2.1",
+    "prisma": "^6.12.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.12.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}
