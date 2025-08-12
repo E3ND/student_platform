@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import type { IStudentCreate, IStudentDelete, IStudentUpdate } from "../interfaces/UserType.js";
 import { PrismaClient } from "../generated/prisma/index.js";
+import { getToken } from "../helpers/get-token.js";
+import { getUserByToken } from "../helpers/get-user-by-token.js";
 
 const prisma = new PrismaClient();
 
@@ -32,12 +34,24 @@ export class StudentController {
             return res.status(422).json({ message: "O campo 'course' é inválido" });
         }
 
+        const token = getToken(req) as string;
+        const user = await getUserByToken(token);
+
+        if(!user) {
+            throw res.status(401).json({ message: "Usuário não autenticado" });
+        }
+
         try {
             await prisma.student.create({
                 data: {
                     name: reqStudent.name,
                     age: reqStudent.age,
-                    course: reqStudent.course
+                    course: reqStudent.course,
+                    user: {
+                        connect: {
+                            id: user.id
+                        }
+                    }
                 }
             });
 
