@@ -1,26 +1,39 @@
 import axios from "axios";
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Students from "../../components/Student";
 import type { IStudent } from "../../interfaces/studentsTypes";
+import { AuthContext } from "../../context/UserProvider";
+import { ReloadContext } from "../../context/reloadProvider";
 
 export default function Home() {
-    const [ name, setName ] = useState("");
-    const [ age, setAge ] = useState("");
-    const [ course, setCourse ] = useState("");
-    const [ studentData, setStudentData ] = useState<IStudent[]>([]);
-    const [ pointerBlocker, setPointerBlocker ] = useState('form_button_block');
-    const [ isLoading, setIsloading ] = useState(false);
+    const [name, setName] = useState("");
+    const [age, setAge] = useState("");
+    const [course, setCourse] = useState("");
+
+    const [studentData, setStudentData] = useState<IStudent[]>([]);
+
+    const [pointerBlocker, setPointerBlocker] = useState('form_button_block');
+
+    const [isLoading, setIsloading] = useState(false);
+
+    const {reload, setReload} = useContext(ReloadContext)!;
+
+    const { getToken } = useContext(AuthContext);
+
+    const [token, setToken] = useState(getToken);
 
     useEffect(() => {
+         console.log("error");
         axios.get("http://localhost:3333/student/", {}).then(function (response) {
             const { data } = response.data
             setStudentData(data);
-            setIsloading(true);
+            // setIsloading(prev => !prev);
         })
         .catch(function (error) {
             console.log(error);
         });
-    }, [studentData])
+
+    }, [reload])
 
     useEffect(() => {
         if (!name || !age || !course) {
@@ -37,8 +50,15 @@ export default function Home() {
             name: name,
             age: parseInt(age),
             course: course,
-        }).then(function (response) {
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        }
+        ).then(function (response) {
             console.log(response);
+            setReload(!reload);
         })
         .catch(function (error) {
             console.log(error);

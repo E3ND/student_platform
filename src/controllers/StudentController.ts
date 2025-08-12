@@ -11,10 +11,13 @@ export class StudentController {
         const students = await prisma.student.findMany({
             where: {
                 deletedAt: null
+            },
+            orderBy: {
+                createdAt: "desc"
             }
         });
 
-        if(students.length === 0) return  res.status(201).json({ data: "Nenhum estudante cadastrado" });
+        if(students.length === 0) throw res.status(201).json({ data: "Nenhum estudante cadastrado" });
 
         res.status(200).json({ data: students });
     }
@@ -23,15 +26,15 @@ export class StudentController {
         const reqStudent: IStudentCreate = req.body
 
         if (reqStudent.name === null || typeof reqStudent.name !== "string") {
-            return res.status(422).json({ message: "O campo 'nome' é inválido" });
+            throw res.status(422).json({ message: "O campo 'nome' é inválido" });
         }
 
         if (!reqStudent.age || typeof reqStudent.age !== "number") {
-            return res.status(422).json({ message: "O campo 'age' é inválido" });
+            throw res.status(422).json({ message: "O campo 'age' é inválido" });
         }
 
         if (!reqStudent.course || typeof reqStudent.course !== "string") {
-            return res.status(422).json({ message: "O campo 'course' é inválido" });
+            throw res.status(422).json({ message: "O campo 'course' é inválido" });
         }
 
         const token = getToken(req) as string;
@@ -57,7 +60,7 @@ export class StudentController {
 
             return res.status(201).json({ message: 'Usuário cadastrado com sucesso!' })
         } catch (error) {
-            return res.status(500).json({ message: error })
+            throw res.status(500).json({ message: error })
         }
      }
 
@@ -65,30 +68,48 @@ export class StudentController {
         const reqStudent: IStudentUpdate = req.body;
 
         if (reqStudent.id === null || typeof reqStudent.id !== "string") {
-            return res.status(422).json({ message: "O campo 'id' é inválido" });
+            throw res.status(422).json({ message: "O campo 'id' é inválido" });
         }
 
         if (reqStudent.name === null || typeof reqStudent.name !== "string") {
-            return res.status(422).json({ message: "O campo 'nome' é inválido" });
+            throw res.status(422).json({ message: "O campo 'nome' é inválido" });
         }
 
         if (!reqStudent.age || typeof reqStudent.age !== "number") {
-            return res.status(422).json({ message: "O campo 'age' é inválido" });
+            throw res.status(422).json({ message: "O campo 'age' é inválido" });
         }
 
         if (!reqStudent.course || typeof reqStudent.course !== "string") {
-            return res.status(422).json({ message: "O campo 'course' é inválido" });
+            throw res.status(422).json({ message: "O campo 'course' é inválido" });
         }
 
         const student = await prisma.student.findUnique({
             where: {
                 id: reqStudent.id,
                 deletedAt: null
+            },
+            include: {
+                user: {
+                    select: {
+                        id: true
+                    }
+                }
             }
         });
 
         if(student === null) {
-            return res.status(404).json({ message: 'Estudante não encontrado' })
+            throw res.status(404).json({ message: 'Estudante não encontrado' })
+        }
+
+        const token = getToken(req) as string;
+        const user = await getUserByToken(token);
+
+        if(!user) {
+            throw res.status(401).json({ message: "Usuário não autenticado" });
+        }
+
+        if(user.id !== student.user.id) {
+            throw res.status(401).json({ message: "Não autorizado" });
         }
 
         try {
@@ -106,7 +127,7 @@ export class StudentController {
 
             return res.status(200).json({ message: 'Estudante atualizado com sucesso' })
         } catch (error) {
-            return res.status(500).json({ message: error })
+            throw res.status(500).json({ message: error })
         }
      }
 
@@ -114,18 +135,36 @@ export class StudentController {
         const { id }: IStudentDelete = req.params as any;
 
         if (id === null || typeof id !== "string") {
-            return res.status(422).json({ message: "O campo 'id' é inválido" });
+            throw res.status(422).json({ message: "O campo 'id' é inválido" });
         }
 
         const student = await prisma.student.findUnique({
             where: {
                 id: id,
                 deletedAt: null
+            },
+            include: {
+                user: {
+                    select: {
+                        id: true
+                    }
+                }
             }
         });
 
         if(student === null) {
-            return res.status(404).json({ message: 'Estudante não encontrado' })
+            throw res.status(404).json({ message: 'Estudante não encontrado' })
+        }
+
+        const token = getToken(req) as string;
+        const user = await getUserByToken(token);
+
+        if(!user) {
+            throw res.status(401).json({ message: "Usuário não autenticado" });
+        }
+
+        if(user.id !== student.user.id) {
+            throw res.status(401).json({ message: "Não autorizado" });
         }
 
         try {
@@ -141,7 +180,7 @@ export class StudentController {
 
             return res.status(200).json({ message: 'Estudante deletado com sucesso' })
         } catch (error) {
-            return res.status(500).json({ message: error })
+            throw res.status(500).json({ message: error })
         }
      }
 }

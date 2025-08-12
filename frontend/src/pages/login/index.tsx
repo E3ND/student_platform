@@ -1,0 +1,57 @@
+import axios from "axios";
+import { useContext, useEffect, useState } from "react"
+import { AuthContext } from "../../context/UserProvider";
+import { useNavigate } from "react-router-dom";
+
+export default function Login() {
+    const navigate = useNavigate();
+    const { authToken } = useContext(AuthContext);
+    const [ email, setEmail ] = useState("");
+    const [ password, setPassword ] = useState("");
+    const [ pointerBlocker, setPointerBlocker ] = useState('form_button_block');
+
+    useEffect(() => {
+        if (!email || !password) {
+            setPointerBlocker('form_button_block');
+        } else {
+            setPointerBlocker('form_button_free');
+        }
+    }, [email, password])
+
+    async function createUser() {
+        if(pointerBlocker === 'form_button_block') return;
+
+        axios.post("http://localhost:3333/user/login", {
+            email: email,
+            password: password
+        }).then((response) => {
+            const { token } = response.data;
+
+            authToken(token);
+
+            navigate("/");
+        })
+        .catch(function (error) {
+            console.log("aa", error.response.data.message);
+        });
+    }
+
+    return (
+        <div className="container_form">
+
+            <div className="form_box">
+                <p>Email {email === '' ? <span>(Obrigatório)</span> : ''}</p>
+                <input className="input_style" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+
+            <div className="form_box">
+                <p>Senha {password === '' ? <span>(Obrigatório)</span> : ''}</p>
+                <input className="input_style" type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </div>
+
+            <div className="form_box">
+                <button className={pointerBlocker} onClick={createUser}>Logar</button>
+            </div>
+        </div>        
+    )
+}

@@ -11,6 +11,7 @@ export const createUserToken = (user: IToken, req: Request, res: Response) => {
     }, tokenEnv)
 
     return res.status(200).json({ 
+        error: false,
         message: "Você está autenticado", 
         token, 
     })    

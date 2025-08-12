@@ -4,10 +4,12 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 import type { IStudent } from "../../interfaces/studentsTypes.js";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import "./styles.css";
 import { format } from "date-fns";
+import { AuthContext } from "../../context/UserProvider.js";
+import { ReloadContext } from "../../context/reloadProvider.js";
 
 interface StudentsProps {
     studentsData: IStudent;
@@ -15,11 +17,19 @@ interface StudentsProps {
 
 export default function Students({ studentsData }: StudentsProps) {
     const [showForm, setShowForm] = useState(false);
+
     const [id, setId] = useState(studentsData.id);
     const [name, setName] = useState(studentsData.name);
     const [age, setAge] = useState(studentsData.age);
     const [course, setCourse] = useState(studentsData.course);
+
     const [pointerBlocker, setPointerBlocker] = useState('form_button_free');
+
+    const {reload, setReload} = useContext(ReloadContext)!;
+
+    const { getToken } = useContext(AuthContext);
+
+    const [token, setToken] = useState(getToken);
 
     useEffect(() => {
         if (!name || !age || !course) {
@@ -30,8 +40,14 @@ export default function Students({ studentsData }: StudentsProps) {
     }, [name, age, course])
 
     async function deleteStudent(studentId: string) {
-        axios.delete(`http://localhost:3333/student/delete/${studentId}`, {}).then(function (response) {
+        axios.delete(`http://localhost:3333/student/delete/${studentId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",                
+            }
+        }).then(function (response) {
             console.log(response);
+            setReload(!reload);
         })
         .catch(function (error) {
             console.log(error);
@@ -39,7 +55,6 @@ export default function Students({ studentsData }: StudentsProps) {
     }
 
     async function updateStudent(studentId: string) {
-        console.log(pointerBlocker)
         if(pointerBlocker === 'form_button_block') return;
         
         axios.put("http://localhost:3333/student/update", {
@@ -47,12 +62,19 @@ export default function Students({ studentsData }: StudentsProps) {
             name: name,
             age: parseInt(age),
             course: course,
-        }).then(function (response) {
-            console.log(response);
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            }
         })
-            .catch(function (error) {
+        .then(function (response) {
+            console.log(response);
+            setReload(!reload);
+        })
+        .catch(function (error) {
                 console.log(error);
-            });
+        });
 
         setShowForm(false);
     }
