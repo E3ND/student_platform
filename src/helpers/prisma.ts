@@ -1,6 +1,6 @@
 import { PrismaClient } from "../generated/prisma/index.js";
 
-// Criando uma instacia do PrismaClient para evitar ficar criando varias instancias
+// Criando uma instacia única do PrismaClient para evitar ficar criando varias instancias
 const prismaClientSingleton = () => {
     return new PrismaClient();
 }

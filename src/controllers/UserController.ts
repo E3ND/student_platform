@@ -11,15 +11,15 @@ export class UserController {
         const reqUser: IUser = req.body
 
         if (reqUser.name === null || typeof reqUser.name !== "string") {
-            throw res.status(422).json({ error: true, message: "O campo 'name' é inválido" });
+            throw res.status(422).json({ message: "O campo 'name' é inválido" });
         }
 
         if (!reqUser.email || typeof reqUser.email !== "string") {
-            throw res.status(422).json({ error: true, message: "O campo 'email' é inválido" });
+            throw res.status(422).json({ message: "O campo 'email' é inválido" });
         }
 
         if (!reqUser.password || typeof reqUser.password !== "string") {
-            throw res.status(422).json({ error: true, message: "O campo 'password' é inválido" });
+            throw res.status(422).json({ message: "O campo 'password' é inválido" });
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -49,11 +49,11 @@ export class UserController {
         const reqUser: IUserLogin = req.body;
 
         if (reqUser.email === null || typeof reqUser.email !== "string") {
-            throw res.status(422).json({ error: true, message: "O campo 'email' é inválido" });
+            throw res.status(422).json({ message: "O campo 'email' é inválido" });
         }
 
         if (!reqUser.password || typeof reqUser.password !== "string") {
-            throw res.status(422).json({ error: true, message: "O campo 'password' é inválido" });
+            throw res.status(422).json({ message: "O campo 'password' é inválido" });
         }
 
         const user = await prisma.user.findUnique({
@@ -63,13 +63,13 @@ export class UserController {
         });
 
         if(!user) {
-            throw res.status(404).json({ error: true, message: "Usuário não encontrado" });
+            throw res.status(404).json({ message: "Usuário não encontrado" });
         }
 
         const checkPassowrd = await bcrypt.compare(reqUser.password, user.password);
     
         if(!checkPassowrd) {
-            throw res.status(401).json({ error: true, message: "Senha incorreta" });
+            throw res.status(401).json({ message: "Senha incorreta" });
         }
 
         const data = {

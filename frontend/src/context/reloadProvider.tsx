@@ -12,6 +12,8 @@ interface ReloadProviderProps {
     children: ReactNode;
 }
 
+// Context usado apenas para fazer os dados que vem da API serem atualizados após um create, update ou softdelete
+
 export function ReloadProvider({ children }: ReloadProviderProps) {
     const [reload, setReload] = useState(false);
 
