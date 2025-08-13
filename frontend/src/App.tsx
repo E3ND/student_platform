@@ -5,6 +5,10 @@ import { setDefaultOptions } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import './App.css'
 import Home from './pages/Home'
+import { UserProvider } from './context/UserProvider';
+import Login from './pages/login';
+import Register from './pages/register';
+import { ReloadProvider } from './context/reloadProvider';
 
 function App() {
     useEffect(() => {
@@ -14,9 +18,15 @@ function App() {
   return (
     <>
     <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
+      <UserProvider>
+        <ReloadProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </ReloadProvider>
+      </UserProvider>
     </Router>
     </>
   )

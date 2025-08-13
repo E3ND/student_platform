@@ -2,3 +2,104 @@
   padding: 0;
   margin: 0;
 }
+
+.container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.box {
+    width: 50vw;
+    min-width: 500px;
+    display: flex;
+    margin: auto;
+}
+
+.fild_props {
+    border: solid #000 1px;
+    justify-items: center;
+    align-content: center;
+    width: 600px;
+}
+
+.fild_props:last-child {
+    display: flex;
+}
+
+.fild_props > span {
+    cursor: pointer;
+    margin: auto;
+    align-content: center;
+    padding: 14px;
+}
+
+.icon_block {
+    cursor: not-allowed !important;
+    color: rgb(158, 156, 156);
+}
+
+.container_form {
+    width: 100vw;
+    display: block;
+    justify-content: center;
+}
+
+.container_link {
+    width: fit-content;
+    margin: 20px auto;
+}
+
+.container_link > * {
+    color: blue;
+}
+
+.form_box {
+    width: 50vw;
+    min-width: 500px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 15px;
+}
+
+.input_style {
+    padding: 5px;
+}
+
+.form_button_free {
+    width: 120px;
+    margin: 20px auto;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.form_button_block {
+    width: 120px;
+    margin: 20px auto;
+    padding: 5px;
+    cursor: not-allowed;
+    background-color: #d4d3d3;
+}
+
+.warning_container {
+    width: 100vw;
+    display: flex;
+    position: fixed;
+    top: 0;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.warning_box {
+    width: 50vw;
+    min-width: 500px;
+    display: flex;
+    margin: auto;
+}
+
+.warning_box > p {
+  margin: auto;
+  font-size: 20px;
+}
