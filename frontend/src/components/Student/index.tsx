@@ -6,10 +6,10 @@ import type { IStudent, IUser } from "../../interfaces/studentsTypes.js";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 
-import "./styles.css";
 import { format } from "date-fns";
 import { AuthContext } from "../../context/UserProvider.js";
 import { ReloadContext } from "../../context/reloadProvider.js";
+import WarningBar from "../WarningBar/index.js";
 
 interface StudentsProps {
     studentsData: IStudent;
@@ -33,6 +33,7 @@ export default function Students({ studentsData }: StudentsProps) {
     const [token, setToken] = useState(getToken);
 
     const [authenticatedUser, setAuthenticatedUser] = useState<IUser | null>(null);
+    const [erroLog, setErrorLog] = useState<string | null>(null);
 
     const backUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -50,9 +51,10 @@ export default function Students({ studentsData }: StudentsProps) {
             setAuthenticatedUser(data);
         })
         .catch(function (error) {
-            console.log(error);
+            setErrorLog(error.response.data.message);
         });
-
+        
+        setErrorLog(null);
     }, [])
 
     useEffect(() => {
@@ -86,8 +88,9 @@ export default function Students({ studentsData }: StudentsProps) {
             setReload(!reload);
         })
         .catch(function (error) {
-            console.log(error);
+            setErrorLog(error.response.data.message);
         });
+        setErrorLog(null);
     }
 
     async function updateStudent(studentId: string) {
@@ -106,13 +109,13 @@ export default function Students({ studentsData }: StudentsProps) {
             }
         })
         .then(function (response) {
-            console.log(response);
             setReload(!reload);
         })
         .catch(function (error) {
-                console.log(error);
+            setErrorLog(error.response.data.message);
         });
 
+        setErrorLog(null);
         setShowForm(false);
     }
 
@@ -123,6 +126,9 @@ export default function Students({ studentsData }: StudentsProps) {
 
     return (
         <div className="container">
+            {erroLog && (
+                <WarningBar message={erroLog} />
+            )}
             <main className="box" key={studentsData.id}>
                 <div className="fild_props">
                     <p>{studentsData.name}</p>

@@ -5,6 +5,7 @@ import type { IStudent } from "../../interfaces/studentsTypes";
 import { AuthContext } from "../../context/UserProvider";
 import { ReloadContext } from "../../context/reloadProvider";
 import { Link } from "react-router-dom";
+import WarningBar from "../../components/WarningBar";
 
 export default function Home() {
     const [name, setName] = useState("");
@@ -23,6 +24,8 @@ export default function Home() {
 
     const [token, setToken] = useState(getToken);
 
+    const [erroLog, setErrorLog] = useState<string | null>(null);
+
     const backUrl = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
@@ -30,12 +33,12 @@ export default function Home() {
         axios.get(`${backUrl}/student/`, {}).then(function (response) {
             const { data } = response.data
             setStudentData(data);
-            // setIsloading(prev => !prev);
         })
         .catch(function (error) {
-            console.log(error);
+            setErrorLog(error.response.data.message);
         });
 
+        setErrorLog(null);
     }, [reload])
 
     useEffect(() => {
@@ -64,8 +67,9 @@ export default function Home() {
             setReload(!reload);
         })
         .catch(function (error) {
-            console.log(error);
+            setErrorLog(error.response.data.message);
         });
+        setErrorLog(null);
     }
 
     function logout() {
@@ -77,6 +81,9 @@ export default function Home() {
 
     return(
         <div className="container_form">
+            {erroLog && (
+                <WarningBar message={erroLog} />
+            )}
         { token ? (
             <>
                 <div className="form_box">

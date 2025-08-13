@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/UserProvider";
+import WarningBar from "../../components/WarningBar";
 
 export default function Register() {
     const navigate = useNavigate();
@@ -11,6 +12,7 @@ export default function Register() {
     const [ password, setPassword ] = useState("");
     const [ confirmPassword, setConfirmPassword ] = useState("");
     const [ pointerBlocker, setPointerBlocker ] = useState("");
+    const [erroLog, setErrorLog] = useState<string | null>(null);
 
     const backUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -37,12 +39,17 @@ export default function Register() {
             navigate("/");
         })
         .catch(function (error) {
-            console.log("aa", error.response.data.message);
+            setErrorLog(error.response.data.message);
         });
+
+        setErrorLog(null);
     }
 
     return (
         <div className="container_form">
+            {erroLog && (
+                <WarningBar message={erroLog} />
+            )}
             <div className="form_box">
                 <p>Nome {name === '' ? <span>(Obrigatório)</span> : ''}</p>
                 <input className="input_style" type="text" value={name} onChange={(e) => setName(e.target.value)} />
