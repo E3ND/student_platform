@@ -1,84 +1,104 @@
-<p float="left">
-  <img src="https://github.com/user-attachments/assets/9bd3241b-89a8-48cf-98f4-6454f5856bf9" width="150" align="left"/>
-  <img loading="lazy" src="https://img.shields.io/badge/Processo_Seletivo-2025-24?style=for-the-badge&color=GREEN" align="right"/>
-</p>
-<br/>
 <p>
   <h1 align="center">Desafio de Programação Fullstack – Vaga Júnior</h1>
 </p>
 <p>
-  Prezado candidato, este teste foi elaborado em 2 etapas: teórica e prática.<br/><br/>
-  É permitido consultar internet, documentação e fóruns livremente, mas <b>blocos de código gerados por IA podem gerar desclassificação</b> caso não sejam entendidos ou adaptados.
+  <h3>Parte teórica</h3>
 </p>
-<p>
-  Não esperamos que seu teste seja complexo ou perfeito. Queremos entender seu raciocínio, organização e capacidade de documentar decisões.  
-  Saber seus pontos fracos também é importante, por isso conte-nos o que você domina e o que ainda está aprendendo.
-</p>
-<p>
-  Você deve clonar este repositório e responder a parte teórica diretamente no arquivo README.md, junto com o código da parte prática.
-</p>
-<p>
-  O frontend e o backend devem ser desenvolvidos separadamente e se comunicar através de uma API.  
-  Se usar banco de dados, inclua o script de criação das tabelas em um arquivo `.sql`.
-</p>
-<p>
-  :arrow_right: O código deve ser entregue em um repositório Git (GitHub, GitLab ou Bitbucket)<br/>
-  :arrow_right: Inclua um README.md com instruções claras para configurar e executar o projeto<br/>
-  :arrow_right: <b>Prazo de entrega:</b> 4 dias a partir do recebimento do teste
-</p>
-<p><b>:gem: Dica! Não consuma tempo com estilização das páginas do teste prático, foque na funcionalidade.</b></p>
-<p><b>:gem: Dica! Simplicidade funcional > Conceitos complexos e código inchado.</b></p>
-<p><b>:gem: Dica! Código comentado explicando decisão técnica é ouro.</b></p>
-
----
-
-<h3>1. Parte Teórica</h3>
-<p>Responda de forma breve (máx. 5 linhas cada), usando suas próprias palavras.</p>
 
 <p>:page_with_curl: 1. Explique a diferença entre <code>var</code>, <code>let</code> e <code>const</code> no JavaScript.</p>
+<p>As variáveis declaradas com <code>let</code> e <code>var</code> pode ser alteradas ao longo do código, o <code>cont</code> não pode, variáveis declaradas como <code>var</code> pode ser redeclarada, as outras não. E as variáveis declaradas como <code>let</code>e <code>const</code> só existem no escopo do bloco que foram declaradas enquanto a <code>var</code> vai existir fora e dentro.</p>
+
 <p>:page_with_curl: 2. O que é <code>async/await</code> e como ele facilita o trabalho com código assíncrono?</p>
+<P>
+<code>Async</code> quer dizer que o bloco de código é assíncrono, ou seja, o programa não vai esperar por esse bloco de código terminar e vai continuar a execução, e quando o bloco de código retornar algo a aplicação volta para executar o que foi definido para rodar depois. <br />
+O <code>await</code> diz para a aplicação esperar um bloco de código terminar antes de continuar a execução. <br />
+Ele facilita o trabalho pois, é mais fácil de tratar erros com <code>async/await</code> e tem o fluxo linear.
+</p>
+
 <p>:page_with_curl: 3. O que é uma API e qual seu papel na comunicação entre frontend e backend?</p>
+<P>
+  API é um conjunto de serviços e protocolos que interligam dois ou mais sistemas entre si, através de chamadas. <br />
+  Seu papel no frontend e backend é conectar ambos através de requisições HTTP, onde o frontend solicitara serviços a serem executados no backend e retornados, assim separando as responsabilidades em camadas e permitido melhor organização e adaptabilidade.
+</p>
+
 <p>:page_with_curl: 4. Cite dois métodos HTTP e explique em quais casos são usados.</p>
+<P>
+  POST e PUT. <br />
+  POST é usado para requisições que vão criar algo no sistema e que vão enviar algum dado no corpo da requisição. <br />
+  PUT é usado quando se vai atualizar algum registro existente, onde se vai enviar todos os dados desse registro e que todos os campos vão ser atualizados mesmo que apenas um tenha mudado de valor.
+</p>
+
 <p>:page_with_curl: 5. Em uma requisição ao backend, como você trataria:
-<br/>a) Sucesso  
+<br/>a) Sucesso
+<P>Retornaria um response com o HTTP 200 e uma mensagem de sucesso, caso alog tenha sido criado retornaria um HTTP 201.</p>
+
 <br/>b) Erro (ex.: 404 ou 500)  
+<P>
+Em caso de 404, colocaria um <code>if</code> para chegar se a função de busca retornou algo, caso não tenha retornado nenhum valor, enviarei um response HTTP 404 para o frontend informando que nada foi achada. <br />
+Em caso de erro 500 utilizaria um <code>trycatch</code> para a aplicação não quebrar e retornaria o erro para o frontend ou salvaria em uma aplicação que monitora erro ou em uma tabela de <code>errorLog</code> junto com a mensagem do motivo de erro.
+</p>
+
 <br/>c) Resposta muito lenta (informando o usuário)  
+<P>
+Colocando um <code>timeout</code> por volta do bloco de código passível de ter esse erro, com um tempo limite para esse bloco retornar algo, caso o tempo limite se exceda, mandaria um response HTTP 408/504 informando ao frontend que não houve resposta.
+</p>
 </p>
 
 ---
 
-<h3>2. Parte Prática</h3>
-<p>Sua missão é desenvolver uma página de cadastro de alunos com as seguintes funcionalidades:</p>
-<ul>
-  <li><b>Cadastro:</b> Formulário para cadastrar novos alunos (nome, idade, curso)</li>
-  <li><b>Listagem:</b> Exibir todos os alunos cadastrados em uma tabela</li>
-  <li><b>Edição:</b> Permitir editar dados de um aluno já cadastrado</li>
-  <li><b>Deleção:</b> Permitir excluir aluno já cadastrado</li>
-</ul>
+<h3>Parte Prática</h3>
+<h4>Como rodar o projeto</h4>
 
-<h4>2.1 Detalhes Importantes</h4>
-<ul>
-  <li>Backend em PHP ou Node.js</li>
-  <li>Frontend em PHP com JavaScript html e css ou framework (React, Vue, etc.)</li>
-  <li>Frontend e backend no mesmo projeto, mas separados em camadas</li>
-  <li>Comunicação via API (use requisições HTTP)</li>
-  <li>Banco de dados não é obrigatório, mas vale ponto extra</li>
-  <li>Se usar banco, envie script SQL</li>
-</ul>
+<p>
+  <h4>Backend</h4>
+  <ul>
+      <li>Com o comando <code>git clone https://github.com/E3ND/student_platform</code> clone o reposítório no seu PC</li><br /
+      <li>Na raiz do projeto criei um arquivo <code>.env</code> contendo as seguintes variaveis <br /> 
+        <code>DATABASE_URL="postgresql://user:admin@localhost:5432/register_students"</code>        
+        <code>TOKEN="OINSDFG938P4UIONSJDKF404J"</code> 
+      </li>
+    <br /
+    <li>
+        :warning: Caso você opte por mudar a variavel <code>DATABASE_URL</code>, lembre-se de mudar também na hora de criar o seu banco de dados, a variavel <code>TOKEN</code> pode ter qualquer valor.
+    </li> <br />
+      <li>
+        No seu terminal caso rode o comando <br />
+        <code>docker run --name studens -e POSTGRES_USER=user -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=register_students -p 5432:5432 -d postgres</code>
+      </li> <br />
+      <li>
+        :warning: Os dados de criação do banco de dados postgresql tem que ser igual a url de conexão <code>DATABASE_URL</code> <br />
+        Caso você não tenha ou não queira usar docker, basta executar o comando SQL presente na pasta <code>database</code>
+      </li> <br /
+      <li>
+        Com o seu banco de dados rodando na raiz do projeto execute o comando <br />
+        <code>npm install</code>
+      </li> <br />
+      <li>
+        Ainda na raiz da pasta, caso você não tenha criado as tabelas execute o comando <br />
+        <code>npx prisma db push</code> <br />
+        Após isso execute o comando
+        <code>npx prisma generate</code> <br />
+      </li> <br />
+      <li>
+        E por fim execute o comando ainda na raiz do projeto <br />
+        <code>npm run dev</code>  <br />
+        E com isso o backend vai estar pronto
+      </li>
+  </ul>
 
----
-
-<h2>Critérios Avaliativos</h2>
-<ul>
-  <li>Conhecimentos no uso do Git</li>
-  <li>Organização do código e comentários</li>
-  <li>Clareza nas respostas teóricas</li>
-  <li>Estrutura de código</li>
-  <li>Funcionalidade da aplicação</li>
-  <li>Capacidade de resolver problemas</li>
-</ul>
-
----
-
-<b>Seu prazo será de 4 dias a partir do recebimento deste teste.</b>  
-<h3>Boa Sorte! 🚀</h3>
+  <h4>Frontend</h4>
+  <ul>
+      <li>
+        Na raiz da pasta <code>frontend</code> criei outro arquivo .env com a seguinte variavel <br />
+        <code>VITE_BACKEND_URL="http://localhost:3333"</code> <br />
+        :warning: Por padrão o backend vai rodar na porta 3333
+      </li><br />
+      <li>
+        Rode o comano <code>npm install<code> na pasta frontend <br />
+        Depois rode o comando <br />
+        <code>npm run dev</code>
+        Por padrão o frontend vai estar disponível para acesso na URL <br />
+        <code>http://localhost:5173/</code>
+      </li>
+  </ul>
+</p>
