@@ -25,6 +25,19 @@ export class UserController {
         const salt = await bcrypt.genSalt(10);
         const passwordHash = await bcrypt.hash(reqUser.password, salt);
 
+        const user = await prisma.user.findUnique({
+            where: {
+                email: reqUser.email,
+            },
+            select: {
+                id: true,
+            }
+        })
+
+        if(user) {
+            throw res.status(409).json({ message: "Usuário já existe" });
+        }
+
         try {
             const userData = await prisma.user.create({
                 data: {
