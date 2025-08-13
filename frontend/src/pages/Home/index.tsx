@@ -29,7 +29,6 @@ export default function Home() {
     const backUrl = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
-        console.log()
         axios.get(`${backUrl}/student/`, {}).then(function (response) {
             const { data } = response.data
             setStudentData(data);
@@ -42,6 +41,7 @@ export default function Home() {
     }, [reload])
 
     useEffect(() => {
+        // Determina se o button podera ser apertado ou não, caso todos os dados estejam preenchidos
         if (!name || !age || !course) {
             setPointerBlocker('form_button_block');
         } else {
@@ -52,6 +52,17 @@ export default function Home() {
     async function createStudent() {
         if(pointerBlocker === 'form_button_block') return;
 
+        setErrorLog(null);
+
+        if(parseInt(age) >= 100) { 
+            setTimeout(() => {
+                setErrorLog("Idade inválida");  
+            }, 0);
+            return;
+        }
+
+        // Optei por usar o then/catch para facilitar a mensagem de erro, assim basta o backend retornar um http de erro
+        // Que o front chamara o componente que exibe a menssagem de erro
         axios.post(`${backUrl}/student/create`, {
             name: name,
             age: parseInt(age),
@@ -69,7 +80,6 @@ export default function Home() {
         .catch(function (error) {
             setErrorLog(error.response.data.message);
         });
-        setErrorLog(null);
     }
 
     function logout() {

@@ -78,6 +78,8 @@ export default function Students({ studentsData }: StudentsProps) {
     async function deleteStudent(studentId: string) {
         if(iconBlocker === 'icon_block') return;
 
+        setErrorLog(null);
+
         axios.delete(`${backUrl}/student/delete/${studentId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -90,12 +92,20 @@ export default function Students({ studentsData }: StudentsProps) {
         .catch(function (error) {
             setErrorLog(error.response.data.message);
         });
-        setErrorLog(null);
     }
 
     async function updateStudent(studentId: string) {
         if(pointerBlocker === 'form_button_block') return;
         if(iconBlocker === 'icon_block') return;
+
+        setErrorLog(null);
+
+        if(parseInt(age) >= 100) { 
+            setTimeout(() => {
+                setErrorLog("Idade inválida");  
+            }, 0);
+            return;
+        }
         
         axios.put(`${backUrl}/student/update`, {
             id: studentId,
@@ -110,13 +120,12 @@ export default function Students({ studentsData }: StudentsProps) {
         })
         .then(function (response) {
             setReload(!reload);
+            setShowForm(false);
         })
         .catch(function (error) {
             setErrorLog(error.response.data.message);
         });
 
-        setErrorLog(null);
-        setShowForm(false);
     }
 
     function showStudentEditForm() {

@@ -25,6 +25,16 @@ export default function Login() {
     async function createUser() {
         if(pointerBlocker === 'form_button_block') return;
 
+        setErrorLog(null);
+
+        if(!email.endsWith('@gmail.com')) { 
+            // Macete para redenrizar o componente caso o usuário mande outro email inválido logo em seguida
+            setTimeout(() => {
+                setErrorLog("O email é inválido");  
+            }, 0);
+            return;
+        }
+
         axios.post(`${backUrl}/user/login`, {
             email: email,
             password: password
@@ -38,8 +48,6 @@ export default function Login() {
         .catch(function (error) {
             setErrorLog(error.response.data.message);
         });
-
-        setErrorLog(null);
     }
 
     return (

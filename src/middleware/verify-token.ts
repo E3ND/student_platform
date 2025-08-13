@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction  } from "express";
 import jwt from "jsonwebtoken";
 import { getToken } from "../helpers/get-token.js";
 
+//Middleware que é executado ante da rota chamar o controlle, impede usuário nçao autenticado e acessar toa privada
 export const verifyToken = (req: Request, res: Response, next: NextFunction ) => {
     if(!req.headers.authorization) {
         return res.status(401).json({ message: 'Acesso negado!' })

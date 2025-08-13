@@ -8,6 +8,7 @@ export default function WarningBar ({ message }: WarningBarProps) {
     const [display, setDisplay] = useState("");
 
     useEffect(() => {
+        // Usado para determinar quanto tempo a barra de aviso vai permanecer na tela
         setInterval(() => {
             setDisplay("none");
         }, 5000)

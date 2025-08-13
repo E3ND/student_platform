@@ -26,6 +26,16 @@ export default function Register() {
 
     async function createUser() {
         if(pointerBlocker === 'form_button_block') return;
+        
+        setErrorLog(null);
+        
+        if(!email.endsWith('@gmail.com')) { 
+            // Macete para redenrizar o componente caso o usuário mande outro email inválido logo em seguida
+            setTimeout(() => {
+                setErrorLog("O email é inválido");  
+            }, 0);
+            return;
+        }
 
         axios.post(`${backUrl}/user/register`, {
             name: name,
@@ -41,8 +51,6 @@ export default function Register() {
         .catch(function (error) {
             setErrorLog(error.response.data.message);
         });
-
-        setErrorLog(null);
     }
 
     return (
@@ -71,7 +79,7 @@ export default function Register() {
             </div>
         
             <div className="form_box">
-                <button className={pointerBlocker} onClick={createUser}>Criar aluno</button>
+                <button className={pointerBlocker} onClick={createUser}>Criar usuário</button>
             </div>
         </div>  
 

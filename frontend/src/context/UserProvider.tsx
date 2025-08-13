@@ -15,6 +15,9 @@ export const AuthContext = createContext<AuthContextType>({
     getToken: () => null,
 });
 
+// Usando o useContext do react para poder compartilhar as variaveis e funções com todos os componentes
+// Pois o token vai ser necessário para o usuário cadastrar um aluno
+// Assim como remover o tokne do localStore do navegador ou adicionar um novo token 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [authenticated, setAuthenticated] = useState(true || false);
 

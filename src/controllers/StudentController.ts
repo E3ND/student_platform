@@ -174,6 +174,7 @@ export class StudentController {
         }
 
         try {
+            // efetuando um softdelete ao invés do delete completo, para que assim seja possível recuperar um aluno, caso seja necessário
             await prisma.student.update({
                 where: {
                     id: id,
