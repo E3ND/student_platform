@@ -52,6 +52,15 @@ export default function Home() {
     async function createStudent() {
         if(pointerBlocker === 'form_button_block') return;
 
+        setErrorLog(null);
+
+        if(parseInt(age) >= 100) { 
+            setTimeout(() => {
+                setErrorLog("Idade inválida");  
+            }, 0);
+            return;
+        }
+
         // Optei por usar o then/catch para facilitar a mensagem de erro, assim basta o backend retornar um http de erro
         // Que o front chamara o componente que exibe a menssagem de erro
         axios.post(`${backUrl}/student/create`, {
@@ -71,7 +80,6 @@ export default function Home() {
         .catch(function (error) {
             setErrorLog(error.response.data.message);
         });
-        setErrorLog(null);
     }
 
     function logout() {
