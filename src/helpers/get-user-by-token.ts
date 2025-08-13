@@ -4,6 +4,7 @@ import type { IToken } from "../interfaces/UserType.js";
 
 const prisma = new PrismaClient();
 
+//Funçãfeita para pegar o usuário pelo seu token
 export const getUserByToken = async(token: string) => {
     if(!token) {
         return null;

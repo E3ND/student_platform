@@ -2,6 +2,7 @@ import type { Request, Response } from "express"
 import jwt from "jsonwebtoken";
 import type { IToken } from "../interfaces/UserType.js";
 
+//Criando o token com base no id e nome o usuário
 export const createUserToken = (user: IToken, req: Request, res: Response) => {
     const tokenEnv = process.env.TOKEN as string; 
     

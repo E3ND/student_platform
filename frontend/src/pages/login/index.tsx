@@ -10,6 +10,8 @@ export default function Login() {
     const [ password, setPassword ] = useState("");
     const [ pointerBlocker, setPointerBlocker ] = useState('form_button_block');
 
+    const backUrl = import.meta.env.VITE_BACKEND_URL;
+
     useEffect(() => {
         if (!email || !password) {
             setPointerBlocker('form_button_block');
@@ -21,7 +23,7 @@ export default function Login() {
     async function createUser() {
         if(pointerBlocker === 'form_button_block') return;
 
-        axios.post("http://localhost:3333/user/login", {
+        axios.post(`${backUrl}/user/login`, {
             email: email,
             password: password
         }).then((response) => {

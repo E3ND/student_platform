@@ -1,10 +1,8 @@
 import type { Request, Response } from "express";
 import type { IStudentCreate, IStudentDelete, IStudentUpdate } from "../interfaces/UserType.js";
-import { PrismaClient } from "../generated/prisma/index.js";
 import { getToken } from "../helpers/get-token.js";
 import { getUserByToken } from "../helpers/get-user-by-token.js";
-
-const prisma = new PrismaClient();
+import { prisma } from "../helpers/prisma.js";
 
 export class StudentController {
     static async findAllStudents(req: Request, res: Response) {

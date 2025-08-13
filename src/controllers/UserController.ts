@@ -1,12 +1,10 @@
 import type { Request, Response } from "express";
-import { PrismaClient } from "../generated/prisma/index.js";
 import type { IUser, IUserLogin } from "../interfaces/UserType.js";
 import { createUserToken } from "../helpers/create-user-token.js";
 import bcrypt from "bcrypt";
 import { getUserByToken } from "../helpers/get-user-by-token.js";
 import { getToken } from "../helpers/get-token.js";
-
-const prisma = new PrismaClient();
+import { prisma } from "../helpers/prisma.js";
 
 export class UserController {
     static async createUser(req: Request, res: Response) {

@@ -34,10 +34,12 @@ export default function Students({ studentsData }: StudentsProps) {
 
     const [authenticatedUser, setAuthenticatedUser] = useState<IUser | null>(null);
 
+    const backUrl = import.meta.env.VITE_BACKEND_URL;
+
     useEffect(() => {
         if(!token) return;
 
-        axios.get("http://localhost:3333/user/verify-token", {
+        axios.get(`${backUrl}/user/verify-token`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",  
@@ -74,7 +76,7 @@ export default function Students({ studentsData }: StudentsProps) {
     async function deleteStudent(studentId: string) {
         if(iconBlocker === 'icon_block') return;
 
-        axios.delete(`http://localhost:3333/student/delete/${studentId}`, {
+        axios.delete(`${backUrl}/student/delete/${studentId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",                
@@ -92,7 +94,7 @@ export default function Students({ studentsData }: StudentsProps) {
         if(pointerBlocker === 'form_button_block') return;
         if(iconBlocker === 'icon_block') return;
         
-        axios.put("http://localhost:3333/student/update", {
+        axios.put(`${backUrl}/student/update`, {
             id: studentId,
             name: name,
             age: parseInt(age),

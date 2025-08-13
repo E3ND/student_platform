@@ -23,8 +23,11 @@ export default function Home() {
 
     const [token, setToken] = useState(getToken);
 
+    const backUrl = import.meta.env.VITE_BACKEND_URL;
+
     useEffect(() => {
-        axios.get("http://localhost:3333/student/", {}).then(function (response) {
+        console.log()
+        axios.get(`${backUrl}/student/`, {}).then(function (response) {
             const { data } = response.data
             setStudentData(data);
             // setIsloading(prev => !prev);
@@ -46,7 +49,7 @@ export default function Home() {
     async function createStudent() {
         if(pointerBlocker === 'form_button_block') return;
 
-        axios.post("http://localhost:3333/student/create", {
+        axios.post(`${backUrl}/student/create`, {
             name: name,
             age: parseInt(age),
             course: course,
@@ -68,6 +71,8 @@ export default function Home() {
     function logout() {
         logoutToken();
         setToken(getToken());
+        setStudentData([]);
+        setReload(!reload);
     }
 
     return(

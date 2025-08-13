@@ -12,6 +12,8 @@ export default function Register() {
     const [ confirmPassword, setConfirmPassword ] = useState("");
     const [ pointerBlocker, setPointerBlocker ] = useState("");
 
+    const backUrl = import.meta.env.VITE_BACKEND_URL;
+
     useEffect(() => {
         if (!name || !email || !password || !confirmPassword || password !== confirmPassword) {
             setPointerBlocker('form_button_block');
@@ -23,7 +25,7 @@ export default function Register() {
     async function createUser() {
         if(pointerBlocker === 'form_button_block') return;
 
-        axios.post("http://localhost:3333/user/register", {
+        axios.post(`${backUrl}/user/register`, {
             name: name,
             email: email,
             password: password
