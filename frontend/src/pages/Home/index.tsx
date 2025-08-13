@@ -4,6 +4,7 @@ import Students from "../../components/Student";
 import type { IStudent } from "../../interfaces/studentsTypes";
 import { AuthContext } from "../../context/UserProvider";
 import { ReloadContext } from "../../context/reloadProvider";
+import { Link } from "react-router-dom";
 
 export default function Home() {
     const [name, setName] = useState("");
@@ -18,12 +19,11 @@ export default function Home() {
 
     const {reload, setReload} = useContext(ReloadContext)!;
 
-    const { getToken } = useContext(AuthContext);
+    const { getToken, logoutToken } = useContext(AuthContext);
 
     const [token, setToken] = useState(getToken);
 
     useEffect(() => {
-         console.log("error");
         axios.get("http://localhost:3333/student/", {}).then(function (response) {
             const { data } = response.data
             setStudentData(data);
@@ -65,26 +65,37 @@ export default function Home() {
         });
     }
 
+    function logout() {
+        logoutToken();
+        setToken(getToken());
+    }
+
     return(
         <div className="container_form">
-            <div className="form_box">
-                <p>Nome do aluno {name === '' ? <span>(Obrigatório)</span> : ''}</p>
-                <input className="input_style" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-            </div>
+        { token ? (
+            <>
+                <div className="form_box">
+                    <p>Nome do aluno {name === '' ? <span>(Obrigatório)</span> : ''}</p>
+                    <input className="input_style" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
 
-            <div className="form_box">
-                <p>Idade do aluno {age === '' ? <span>(Obrigatório)</span> : ''}</p>
-                <input className="input_style" type="number" value={age} onChange={(e) => setAge(e.target.value)} />
-            </div>
+                <div className="form_box">
+                    <p>Idade do aluno {age === '' ? <span>(Obrigatório)</span> : ''}</p>
+                    <input className="input_style" type="number" value={age} onChange={(e) => setAge(e.target.value)} />
+                </div>
 
-            <div className="form_box">
-                <p>Nome do curso {course === '' ? <span>(Obrigatório)</span> : ''}</p>
-                <input className="input_style" type="text" value={course} onChange={(e) => setCourse(e.target.value)} />
-            </div>
+                <div className="form_box">
+                    <p>Nome do curso {course === '' ? <span>(Obrigatório)</span> : ''}</p>
+                    <input className="input_style" type="text" value={course} onChange={(e) => setCourse(e.target.value)} />
+                </div>
 
-            <div className="form_box">
-                <button className={pointerBlocker} onClick={createStudent}>Criar aluno</button>
-            </div>
+                <div className="form_box">
+                    <button className={pointerBlocker} onClick={createStudent}>Criar aluno</button>
+                </div>
+            </>
+        ) : (
+            <p className="container_link">Faça o login ou se cadastre para poder cadastrar um aluno <Link to="/login">fazer login</Link> ou <Link to="register">se registre</Link></p>
+        ) }
 
             {isLoading && studentData.length === 0 ? (
                 <h3>Nenhum aluno cadastrado</h3>
@@ -93,6 +104,10 @@ export default function Home() {
                     <Students key={student.id} studentsData={student} />
                 ))
             )}
+
+            <div className="form_box">
+                <button className="form_button_free" onClick={logout}>Sair</button>
+            </div>
         </div>
     )
 }

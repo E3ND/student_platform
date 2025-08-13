@@ -3,6 +3,8 @@ import { PrismaClient } from "../generated/prisma/index.js";
 import type { IUser, IUserLogin } from "../interfaces/UserType.js";
 import { createUserToken } from "../helpers/create-user-token.js";
 import bcrypt from "bcrypt";
+import { getUserByToken } from "../helpers/get-user-by-token.js";
+import { getToken } from "../helpers/get-token.js";
 
 const prisma = new PrismaClient();
 
@@ -78,5 +80,17 @@ export class UserController {
         }
 
         createUserToken(data, req, res);
+    }
+
+    static async getUserByToken(req: Request, res: Response) {
+        const token = getToken(req) as string;
+
+        const user = await getUserByToken(token);
+
+        if(!user) {
+            throw res.status(401).json({ message: 'Token inválido' });
+        }
+
+        return res.status(200).json({ data: user })
     }
 }

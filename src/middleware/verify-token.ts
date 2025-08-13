@@ -18,6 +18,6 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction ) =>
         req.user = verified;
         next()
     } catch (error) {
-        return res.status(400).json({ message: 'Token inválido' });
+        throw res.status(401).json({ message: 'Token inválido' });
     }
 }

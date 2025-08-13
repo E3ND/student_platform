@@ -5,5 +5,6 @@ const routerUser = express.Router();
 
 routerUser.post("/register", UserController.createUser);
 routerUser.post("/login", UserController.loginUser);
+routerUser.get("/verify-token", UserController.getUserByToken);
 
 export default routerUser;

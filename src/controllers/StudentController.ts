@@ -12,6 +12,14 @@ export class StudentController {
             where: {
                 deletedAt: null
             },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
+            },
             orderBy: {
                 createdAt: "desc"
             }

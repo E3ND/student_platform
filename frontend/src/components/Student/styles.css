@@ -27,13 +27,27 @@
     cursor: pointer;
     margin: auto;
     align-content: center;
-    padding: 10px;
+    padding: 14px;
+}
+
+.icon_block {
+    cursor: not-allowed !important;
+    color: rgb(158, 156, 156);
 }
 
 .container_form {
     width: 100vw;
     display: block;
     justify-content: center;
+}
+
+.container_link {
+    width: fit-content;
+    margin: 20px auto;
+}
+
+.container_link > * {
+    color: blue;
 }
 
 .form_box {
